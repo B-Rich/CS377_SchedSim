@@ -1,5 +1,43 @@
 #include "Headers.h"
 
+//This is the discrete event simulator. 
+//It's basically the entrypoint into everything in this file.
+void SchedSim::DES()
+{
+	Event* currEvent = 0; 
+
+	while(!_eventHeap.empty())
+	{
+		currEvent	= _eventHeap.top();
+		_eventHeap.pop();
+		_time = currEvent->getTime();
+		
+		switch(currEvent->getType())
+		{
+			case ARRIVAL	:
+				processArrivalEvent();
+				break;
+			case CPU_DONE	:
+				processCpuDoneEvent();
+				break;
+			case IO_DONE	:
+				processIoDoneEvent();
+				break;
+			case CANCELLED:
+				break;
+			default:
+				printf("we done goofed in SchedSim::DES. \n");
+		}
+
+		delete currEvent;
+	}
+
+printf("_eventHeap.size() = %d\n", (int)_eventHeap.size());
+printf("_IOQueue->size() = %d\n", (int)_IOQueue.size());
+printf("_readyQueue->size() = %d\n", (int)_readyQueue.size());
+	printStatistics();
+}
+
 //returns NULL if a file read error occurs
 // or _remainingProcesses = 0
 Process* SchedSim::getNextProcess()
@@ -238,7 +276,7 @@ void SchedSim::processCpuDoneEvent()
 		delete oldProcess;
 	}
 	
-	//new process
+	//new process (going on now-empty CPU device)
 	if(!_readyQueue.empty())
 	{
 		Process* newProcess = _readyQueue.top();
@@ -351,42 +389,6 @@ SchedSim::SchedSim(int maxProcesses, int maxCPUBursts, Algorithm algorithm, int 
 {
 	_algorithm = algorithm;
 	createEventArrival(_time);
-}
-
-void SchedSim::DES()
-{
-	Event* currEvent = 0; 
-
-	while(!_eventHeap.empty())
-	{
-		currEvent	= _eventHeap.top();
-		_eventHeap.pop();
-		_time = currEvent->getTime();
-		
-		switch(currEvent->getType())
-		{
-			case ARRIVAL	:
-				processArrivalEvent();
-				break;
-			case CPU_DONE	:
-				processCpuDoneEvent();
-				break;
-			case IO_DONE	:
-				processIoDoneEvent();
-				break;
-			case CANCELLED:
-				break;
-			default:
-				printf("we done goofed in SchedSim::DES. \n");
-		}
-
-		delete currEvent;
-	}
-
-printf("_eventHeap.size() = %d\n", (int)_eventHeap.size());
-printf("_IOQueue->size() = %d\n", (int)_IOQueue.size());
-printf("_readyQueue->size() = %d\n", (int)_readyQueue.size());
-	printStatistics();
 }
 
 Algorithm SchedSim::getAlgorithm()
