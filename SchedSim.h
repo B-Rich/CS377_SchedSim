@@ -11,14 +11,12 @@ private:
 	Device* _IODev;
 	Device* _CPUDev;
 	std::priority_queue<Event*, std::vector<Event*>, CompareEvent> _eventHeap;
-	std::priority_queue<Process*, std::vector<Process*>, CompareProcess> _oldReadyQueue;
 	std::priority_queue<Process*, std::vector<Process*>, CompareProcessPointer> _readyQueue;
 	std::queue<Process*> _IOQueue;
 	static double _time;	//made static
 	std::map<int, ProcessData*> _processTable;
 	int _nextProcessID;
 	FILE* _dataFile;
-	CompareProcess _oldCompareProc;
 	CompareProcessPointer _compareProc;
 
 	void processArrivalEvent();
