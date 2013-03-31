@@ -218,9 +218,9 @@ void SchedSim::processArrivalEvent()
 		printf("process ID = %d\n", process->getProcessID());
 	}
 
-	//If CPU empty: get next process, set state to 'RUNNING', place on CPU device, create CPUEvent
-	//			else: attempt to preempt executing process; if not successful, just place process on ready queue
-	
+	/*If CPU empty: get next process, set state to 'RUNNING', place on CPU device, create CPUEvent
+	*			else: attempt to preempt executing process; if not successful, just place process on ready queue
+	*/
 	if(!_CPUDev->hasProcessAndEvent())
 	{
 		addProcessToEmptyCPU(process);
@@ -241,9 +241,7 @@ bool SchedSim::processShouldPreemptProcessOnDevice(Process* process, Device* dev
 }
 
 void SchedSim::processCpuDoneEvent()
-{
-	//TODO: Check whether the old process is now doing I/O or simply used its entire quanta. 
-	
+{	
 	Process* oldProcess = _CPUDev->getProcess();
 	oldProcess->deleteCurrentBurst();
 
