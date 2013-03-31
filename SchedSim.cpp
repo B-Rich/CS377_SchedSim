@@ -249,7 +249,7 @@ void SchedSim::processCpuDoneEvent()
 
 	if(DEBUG_CPU_DONE)
 	{
-		printf("processing cpu done event\n");
+		printf("*****processing cpu done event\n");
 		printf("process ID = %d\n", oldProcess->getProcessID());
 	}
 
@@ -298,7 +298,7 @@ void SchedSim::processIoDoneEvent()
 
 	if(DEBUG_IO_DONE)
 	{
-		printf("processing io done event\n");
+		printf("*****processing io done event\n");
 		printf("process ID = %d\n", process->getProcessID());
 		printf("_IOQueue.size() = %d\n", (int)_IOQueue.size());
 	}
