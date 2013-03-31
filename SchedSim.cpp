@@ -215,6 +215,10 @@ void SchedSim::processCpuDoneEvent()
 		printf("process ID = %d\n", oldProcess->getProcessID());
 	}
 
+	//if old process has bursts remaining 
+	//  and 'IODevice' doesn't have a Process and Event,
+	//	then add the process to the IODevice.
+	//	else, set the old process' state to waiting and put it on the I/O queue.
 	if(!oldProcess->noBurstsRemaining())
 	{
 		if(!_IODev->hasProcessAndEvent())
@@ -223,11 +227,11 @@ void SchedSim::processCpuDoneEvent()
 		}
 		else
 		{
-			oldProcess->setState(WAITING);
-			_IOQueue.push(oldProcess);
+			oldProcess->setState(WAITING); 	
+			_IOQueue.push(oldProcess);		
 		}
 	}
-	else
+	else //the old process is terminated because it has no bursts remaining.
 	{
 		oldProcess->setState(TERMINATED);
 		//update data in _processTable
@@ -302,6 +306,7 @@ void SchedSim::processIoDoneEvent()
 	}
 }
 
+//Adds a process to the IO device. Called only when the IO device is empty and there is nothing in the queue.
 void SchedSim::addProcessToEmptyIO(Process* process)
 {
 	process->setState(IO);
