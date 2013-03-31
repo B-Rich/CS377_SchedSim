@@ -6,6 +6,7 @@ private:
 	int _processID;
 	double _arrivalTime;
 	double _completionTime;
+	double _totalCpuTime;
 public:
 	ProcessData(int processID, double arrivalTime);
 	int getProcessID();

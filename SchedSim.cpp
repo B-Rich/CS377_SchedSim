@@ -60,14 +60,23 @@ Process* SchedSim::getNextProcess()
 	Process* process = new Process(_nextProcessID);
 	_nextProcessID++;
 
-	for(int i = 0; i < twoNminusOne; i++)
+	//hack to create CPU bursts from the first n
+	//	bytes and IO bursts from the last n-1 bytes
+	//for(int i = 0; i < twoNminusOne; i++)
+	for(int i = 0; i < numberOfCpuBursts; i++)
 	{
 		if(DEBUG_BINARY)
 		{
 			printf("byte[%d] = %u\n", i, twoNminusOneBytes[i]);
 		}
 
-		process->addBurst(twoNminusOneBytes[i] / 25.6);
+		//process->addBurst(twoNminusOneBytes[i] / 25.6);
+		process->addCpuBurst(twoNminusOneBytes[i] / 25.6);
+
+		if(i < numberOfCpuBursts - 1)
+		{
+			process->addIoBurst(twoNminusOneBytes[i + numberOfCpuBursts] / 25.6);
+		}
 
 		if(DEBUG_BINARY)
 		{

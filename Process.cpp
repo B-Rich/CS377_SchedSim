@@ -64,8 +64,18 @@ void Process::addBurst(double burst)
 {
 	std::pair<double,double>* thePair = new std::pair<double,double>(burst,burst);
 	_bursts.push(thePair); //TODO: check this for segfaults
+}
+
+void Process::addCpuBurst(double burst)
+{
 	_totalCPUtime += burst;
 	_remainingCPUtime += burst;
+	addBurst(burst);
+}
+
+void Process::addIoBurst(double burst)
+{
+	addBurst(burst);
 }
 
 void Process::preemptCurrentBurst(double ranTime)
@@ -100,6 +110,16 @@ int Process::getRemainingBurstCount()
 bool Process::noBurstsRemaining()
 {
 	return _bursts.empty();
+}
+
+double Process::getTotalCpuTime()
+{
+	return _totalCPUtime;
+}
+
+double Process::getRemainingCpuTime()
+{
+	return _remainingCPUtime;
 }
 
 void Process::checkUnderflow()

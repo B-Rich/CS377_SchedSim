@@ -21,6 +21,7 @@ private:
 	double _remainingCPUtime;
 	std::queue<std::pair<double,double>* > _bursts; //.first is the burst's total run time, .second is the burst's remaining run time.
 	void checkUnderflow();
+	void addBurst(double burst);
 public:
 	Process(int processID);
 	int getProcessID();
@@ -32,11 +33,14 @@ public:
 	void setState(State state);
 	double getCurrentBurstTotal();
 	double getCurrentBurstRemaining();
-	void addBurst(double burst);
 	void preemptCurrentBurst(double time);
 	void deleteCurrentBurst();
 	int getRemainingBurstCount();
 	bool noBurstsRemaining();
+	void addCpuBurst(double burst);
+	void addIoBurst(double burst);
+	double getTotalCpuTime();
+	double getRemainingCpuTime();
 };
 
 class CompareProcess
