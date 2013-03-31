@@ -115,6 +115,7 @@ void SchedSim::addDataToProcessTable(Process* process)
 {
 	ProcessData* processData = new ProcessData(process->getProcessID(),_time);
 	processData->setCompletionTime(_time);
+	processData->setTotalCpuTime(process->getTotalCpuTime());
 	_processTable.insert
 		(
 			std::pair<int,ProcessData*>
@@ -399,16 +400,37 @@ void SchedSim::printStatistics()
 	if(!_processTable.empty())
 	{
 		std::map<int,ProcessData*>::iterator it;
-		double totalTime = 0.0;
+		double complete = 0.0;
+		double length = 0.0;
+		double wait = 0.0;
+		int numberOfProcesses = (int)_processTable.size();
+		double totalWait = 0.0;
+		double totalComplete = 0.0;
+
+		printf("ProcessID\tLength\t\tWait\t\tComplete\n");
 
 		for(it = _processTable.begin(); it != _processTable.end(); it++)
 		{
-			printf("Process %d start/finish: %f/%f\n",
-				it->first, it->second->getArrivalTime(),
-				it->second->getCompletionTime());
-			totalTime += it->second->getCompletionTime() -
+			complete = it->second->getCompletionTime() -
 				it->second->getArrivalTime();
+			length = it->second->getTotalCpuTime();
+			wait = complete - length;
+
+			printf("%d\t\t%f\t%f\t%f\n",
+				it->first,
+				length,
+				wait,
+				complete);
+
+			totalWait += wait;
+			totalComplete += complete;
+
+			delete it->second;
 		}
+
+		printf("Average\t\t\t\t%f\t%f\n",
+			totalWait / numberOfProcesses,
+			totalComplete / numberOfProcesses);
 	}
 }
 
