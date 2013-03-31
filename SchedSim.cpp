@@ -321,7 +321,7 @@ void SchedSim::processIoDoneEvent()
 	}
 	*/
 	
-	if(_CPUDev->hasProcessAndEvent())
+	if(_CPUDev->hasProcessAndEvent()) //CPU device has a process on it
 	{
 		if(processShouldPreemptProcessOnDevice(process, _CPUDev))
 		{
@@ -331,6 +331,9 @@ void SchedSim::processIoDoneEvent()
 		{
 			placeProcessOnReadyQueue(process);
 		}
+	}
+	else{ //CPU device doesn't have a process on it
+		addProcessToEmptyCPU(process);
 	}
 
 	if(!_IOQueue.empty())

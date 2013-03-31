@@ -129,7 +129,7 @@ void Process::checkUnderflow()
 		throw QueueUnderflowException(); 
 	}
 }
-
+/*
 bool CompareProcess::operator()(Process* p1, Process* p2)
 {
 	//TODO: Ensure that _bursts.front().first() of the process currently on the CPU isn't popped until after the process finishes its burst.
@@ -179,7 +179,7 @@ bool CompareProcess::operator()(Process* p1, Process* p2)
 	}
 	return -1;
 }
-
+*/
 
 const char* QueueUnderflowException::what() const throw()
 {
