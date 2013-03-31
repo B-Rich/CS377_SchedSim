@@ -11,6 +11,8 @@ public:
 	ProcessData(int processID, double arrivalTime);
 	int getProcessID();
 	double getArrivalTime();
-	void setCompletionTime(double completionTime);
 	double getCompletionTime();
+	void setCompletionTime(double completionTime);
+	double getTotalCpuTime();
+	void setTotalCpuTime(double totalCpuTime);
 };

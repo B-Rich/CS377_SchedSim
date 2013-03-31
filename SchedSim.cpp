@@ -62,14 +62,10 @@ Process* SchedSim::getNextProcess()
 
 	//hack to create CPU bursts from the first n
 	//	bytes and IO bursts from the last n-1 bytes
+	//	yet have them interleaved in Process _burst
 	//for(int i = 0; i < twoNminusOne; i++)
 	for(int i = 0; i < numberOfCpuBursts; i++)
 	{
-		if(DEBUG_BINARY)
-		{
-			printf("byte[%d] = %u\n", i, twoNminusOneBytes[i]);
-		}
-
 		//process->addBurst(twoNminusOneBytes[i] / 25.6);
 		process->addCpuBurst(twoNminusOneBytes[i] / 25.6);
 
@@ -80,7 +76,17 @@ Process* SchedSim::getNextProcess()
 
 		if(DEBUG_BINARY)
 		{
-			printf("burst[%d] = %f\n", i, twoNminusOneBytes[i] / 25.6);
+			printf("cpu byte[%d] = %u\n", i, twoNminusOneBytes[i]);
+			if(i < numberOfCpuBursts - 1)
+			{
+				printf("io byte[%d] = %u\n", i, twoNminusOneBytes[i + numberOfCpuBursts]);
+			}
+
+			printf("cpu burst[%d] = %f\n", i, twoNminusOneBytes[i] / 25.6);
+			if(i < numberOfCpuBursts - 1)
+			{
+				printf("io burst [%d] = %f\n", i, twoNminusOneBytes[i + numberOfCpuBursts] / 25.6);
+			}
 		}
 	}
 
