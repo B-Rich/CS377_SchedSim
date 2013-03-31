@@ -271,6 +271,7 @@ void SchedSim::processCpuDoneEvent()
 	}
 	else //the old process is terminated because it has no bursts remaining.
 	{
+printf("terminating process\n");
 		oldProcess->setState(TERMINATED);
 		//update data in _processTable
 		_processTable[oldProcess->getProcessID()]->setCompletionTime(_time);
@@ -384,8 +385,8 @@ Event* SchedSim::createEvent(Type type, double time)
 
 SchedSim::SchedSim(int maxProcesses, int maxCPUBursts, Algorithm algorithm, int quantum, FILE* dataFile)
 : _maxProcesses(maxProcesses),_remainingProcesses(maxProcesses),_maxCPUBursts(maxCPUBursts),_quantum(quantum),
-	_IODev(new Device()),_CPUDev(new Device()),_eventHeap(),_oldReadyQueue(),_readyQueue(algorithm),_IOQueue(),
-	_processTable(),_nextProcessID(0),_dataFile(dataFile),_oldCompareProc(),
+	_IODev(new Device()),_CPUDev(new Device()),_eventHeap(),_readyQueue(algorithm),_IOQueue(),
+	_processTable(),_nextProcessID(0),_dataFile(dataFile),
 	_compareProc(algorithm) //removed _time(0.0), moved to bottom of this file.
 {
 	_algorithm = algorithm;
@@ -414,7 +415,7 @@ void SchedSim::printStatistics()
 		double totalWait = 0.0;
 		double totalComplete = 0.0;
 
-		printf("ProcessID\tLength\t\tArrival\t\tWait\t\tComplete\n");
+		printf("ProcessID\tLength\t\tArrival\t\tCompletion\tWait\t\tComplete\n");
 
 		for(it = _processTable.begin(); it != _processTable.end(); it++)
 		{
@@ -423,9 +424,11 @@ void SchedSim::printStatistics()
 			length = it->second->getTotalCpuTime();
 			wait = complete - length;
 
-			printf("%d\t\t%f\t%f\t%f\n",
+			printf("%d\t\t%f\t%f\t%f\t%f\t%f\n",
 				it->first,
 				length,
+				it->second->getArrivalTime(),
+				it->second->getCompletionTime(),
 				wait,
 				complete);
 
@@ -435,7 +438,7 @@ void SchedSim::printStatistics()
 			delete it->second;
 		}
 
-		printf("Average\t\t\t\t%f\t%f\n",
+		printf("Average\t\t\t\t\t\t\t\t%f\t%f\n",
 			totalWait / numberOfProcesses,
 			totalComplete / numberOfProcesses);
 	}
