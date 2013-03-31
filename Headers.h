@@ -11,9 +11,9 @@
 
 //debug flags
 #define DEBUG_INPUT false
-#define DEBUG_BINARY true
+#define DEBUG_BINARY false
 #define DEBUG_ARRIVAL false
-#define DEBUG_CPU_DONE true
-#define DEBUG_IO_DONE true
+#define DEBUG_CPU_DONE false
+#define DEBUG_IO_DONE false
 #define DEBUG_PROCESS false
 #endif
