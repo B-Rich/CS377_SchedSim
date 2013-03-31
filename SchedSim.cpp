@@ -1,20 +1,5 @@
 #include "Headers.h"
 
-
-/*
-* Constructor for SchedSim.
-* "_var = var" means "this.var = var"
-*/
-SchedSim::SchedSim(int maxProcesses, int maxCPUBursts, Algorithm algorithm, int quantum, FILE* dataFile)
-: _maxProcesses(maxProcesses),_remainingProcesses(maxProcesses),_maxCPUBursts(maxCPUBursts),_quantum(quantum),
-	_IODev(new Device()),_CPUDev(new Device()),_eventHeap(),_readyQueue(algorithm),_IOQueue(),
-	_processTable(),_nextProcessID(0),_dataFile(dataFile),
-	_compareProc(algorithm) //removed _time(0.0), moved to bottom of this file.
-{
-	_algorithm = algorithm;
-	createEventArrival(_time);
-}
-
 //This is the discrete event simulator. 
 //It's basically the entrypoint into everything in this file.
 void SchedSim::DES()
@@ -374,12 +359,6 @@ void SchedSim::addProcessToEmptyIO(Process* process)
 		);
 }
 
-
-/*
-*	"Create Event" section.
-*	Creates the three different types of events and adds them to the event heap.
-*/
-
 Event* SchedSim::createEventArrival(double time)
 {
 	return createEvent(ARRIVAL, time);
@@ -403,6 +382,16 @@ Event* SchedSim::createEvent(Type type, double time)
 	return event;
 }
 
+SchedSim::SchedSim(int maxProcesses, int maxCPUBursts, Algorithm algorithm, int quantum, FILE* dataFile)
+: _maxProcesses(maxProcesses),_remainingProcesses(maxProcesses),_maxCPUBursts(maxCPUBursts),_quantum(quantum),
+	_IODev(new Device()),_CPUDev(new Device()),_eventHeap(),_oldReadyQueue(),_readyQueue(algorithm),_IOQueue(),
+	_processTable(),_nextProcessID(0),_dataFile(dataFile),_oldCompareProc(),
+	_compareProc(algorithm) //removed _time(0.0), moved to bottom of this file.
+{
+	_algorithm = algorithm;
+	createEventArrival(_time);
+}
+
 Algorithm SchedSim::getAlgorithm()
 {
 	return _algorithm;
@@ -413,7 +402,6 @@ double SchedSim::getCurrentTime()
 	return _time;
 }
 
-//Prints out the statistics from the process table when the program has completed.
 void SchedSim::printStatistics()
 {
 	if(!_processTable.empty())
@@ -426,7 +414,7 @@ void SchedSim::printStatistics()
 		double totalWait = 0.0;
 		double totalComplete = 0.0;
 
-		printf("ProcessID\tLength\t\tWait\t\tComplete\n");
+		printf("ProcessID\tLength\t\tArrival\t\tWait\t\tComplete\n");
 
 		for(it = _processTable.begin(); it != _processTable.end(); it++)
 		{
