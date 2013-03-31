@@ -11,7 +11,9 @@ bool CompareProcessPointer::compareFCFS(Process* p1, Process* p2)
 
 bool CompareProcessPointer::compareSJF(Process* p1, Process* p2)
 {
-	return true;
+	if(p1 == NULL) { return false; }
+	if(p2 == NULL) { return true; }
+	return p1->getTotalCpuTime() > p2->getTotalCpuTime();
 }
 
 bool CompareProcessPointer::compareSRTF(Process* p1, Process* p2)
