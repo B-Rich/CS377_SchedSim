@@ -180,6 +180,7 @@ bool CompareProcess::operator()(Process* p1, Process* p2)
 	return -1;
 }
 
+
 const char* QueueUnderflowException::what() const throw()
 {
 	return "queue underflow";
