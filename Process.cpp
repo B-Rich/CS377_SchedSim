@@ -63,7 +63,7 @@ double Process::getCurrentBurstRemaining() //current size of current burst; is o
 void Process::addBurst(double burst)
 {
 	std::pair<double,double>* thePair = new std::pair<double,double>(burst,burst);
-	_bursts.push(thePair); //TODO: check this for segfaults
+	_bursts.push(thePair); 
 }
 
 void Process::addCpuBurst(double burst)
@@ -129,57 +129,6 @@ void Process::checkUnderflow()
 		throw QueueUnderflowException(); 
 	}
 }
-/*
-bool CompareProcess::operator()(Process* p1, Process* p2)
-{
-	//TODO: Ensure that _bursts.front().first() of the process currently on the CPU isn't popped until after the process finishes its burst.
-	//TODO: Ensure that new Process objects come with _CPUArrivalTime initialized to _time. This is used to calculate how long the current burst has been running.
-	switch(SchedSim::getAlgorithm()){
-		case FCFS:
-		if(p1->getRQArrivalTime() < p2->getRQArrivalTime() ){
-			return true;
-		}
-		else{
-			return false;
-		}
-		break;
-	
-		case SJF:
-		if(p1->getCurrentBurstTotal() < p2->getCurrentBurstTotal() ){
-			return true;
-		}
-		else{ //special case of SJF: use FCFS if the next CPU bursts of the processes are the same length
-			if(p1->getCurrentBurstTotal() == p2->getCurrentBurstTotal() ){
-				if(p1->getRQArrivalTime() < p2->getRQArrivalTime() ){ //FCFS
-					return true;
-				}
-				else{
-					return false;
-				}
-			}
-			return false;
-		}
-		break;
-		
-		case SRTF:
-		if(
-			p1->getCurrentBurstRemaining() - ( SchedSim::getCurrentTime() - p1->getCPUArrivalTime() ) 
-			< 
-			p2->getCurrentBurstRemaining() - ( SchedSim::getCurrentTime() - p2->getCPUArrivalTime() ) 
-		){
-		return true;
-		}
-		else{
-			return false;
-		}
-		break;
-		
-		default:
-			printf("we done goofed in Process.cpp. \n");	
-	}
-	return -1;
-}
-*/
 
 const char* QueueUnderflowException::what() const throw()
 {

@@ -18,7 +18,9 @@ bool CompareProcessPointer::compareSJF(Process* p1, Process* p2)
 
 bool CompareProcessPointer::compareSRTF(Process* p1, Process* p2)
 {
-	return true;
+	if(p1 == NULL) { return false; }
+	if(p2 == NULL) { return true; }
+	return p1->getRemainingCpuTime() < p2->getRemainingCpuTime();
 }
 
 CompareProcessPointer::CompareProcessPointer(Algorithm algorithm)

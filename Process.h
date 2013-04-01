@@ -17,9 +17,9 @@ private:
 	State _state;
 	double _RQArrivalTime; //arrival time is the last time at which the process entered the ready queue.
 	double _CPUArrivalTime; // is the time at which the process was last placed onto the cpu.
-	double _totalCPUtime;
-	double _remainingCPUtime;
-	std::queue<std::pair<double,double>* > _bursts; //.first is the burst's total run time, .second is the burst's remaining run time.
+	double _totalCPUtime;	//the total amount of time the process has spent on the cpu so far
+	double _remainingCPUtime; //the total amount of time the process needs to spend on the cpu in order to terminate
+	std::queue<std::pair<double,double>* > _bursts; //.first is the burst's total run time, .second is the burst's remaining run time. Alternates between CPU and I/O bursts
 	void checkUnderflow();
 	void addBurst(double burst);
 public:
