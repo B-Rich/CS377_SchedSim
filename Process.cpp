@@ -16,7 +16,7 @@ void Process::setRQArrivalTime(double newArrivalTime){
 	_RQArrivalTime = newArrivalTime;
 }
 
-double Process::getCPUArrivalTime(){ //arrival time is the last time at which the process entered the ready queue.
+double Process::getCPUArrivalTime(){ 
 	return _CPUArrivalTime;
 }
 

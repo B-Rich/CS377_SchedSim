@@ -238,7 +238,7 @@ void SchedSim::addProcessToEmptyCPU(Process* process)
 		(
 			process,
 			createEventCPUDone
-				(
+				(f
 					_time +
 					process->getCurrentBurstRemaining()
 				)
@@ -424,7 +424,6 @@ Event* SchedSim::createEventArrival(double time)
 {
 	return createEvent(ARRIVAL, time);
 }
-
 
 Event* SchedSim::createEventCPUDone(double time)
 {
