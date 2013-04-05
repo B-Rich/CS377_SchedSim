@@ -220,7 +220,7 @@ void SchedSim::handleFileReadError()
 	{
 		printf("Error reading file\n");
 	}
-	exit(1);
+	//exit(1);
 }
 
 //Adds the data from the process to the process table at the end of the process's lifetime. 
