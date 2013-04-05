@@ -28,14 +28,11 @@ ProcessData.o:	ProcessData.cpp Headers.h CHeaders.h
 CompareProcessPointer.o:	CompareProcessPointer.cpp Headers.h CHeaders.h
 	$(CXX) $(CXXFLAGS) -c CompareProcessPointer.cpp -o $@
 
-Headers.h:	ProcessData.h Event.h ProcessData.h CompareProcessPointer.h Device.h SchedSim.h
+Headers.h:	Process.h ProcessData.h Event.h ProcessData.h CompareProcessPointer.h Device.h SchedSim.h
 	touch Headers.h
 
 PriorityQueueTest:		PriorityQueueTest.cpp
 	$(CXX) $(CXXFLAGS) PriorityQueueTest.cpp -o $@
-
-#csapp.o:	csapp.c csapp.h
-#	$(CXX) $(CXXFLAGS) -c csapp.c -o $@
 
 clean:
 	rm -fv *.o SchedSim
@@ -47,7 +44,7 @@ zip:
 	echo "***Creating src directory***" &&\
 	mkdir -v src &&\
 	cp -vt src *.cpp *.h Makefile pwd pwd.new01 pwd.new02\
-		uniform frontload increasing &&\
+		uniform frontload increasing output output.sh&&\
 	echo "***Creating zip***" &&\
 	zip -r src.zip src && echo "***Testing***" &&\
 	zip -Tv src.zip
