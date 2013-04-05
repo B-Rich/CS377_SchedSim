@@ -13,6 +13,7 @@ bool CompareProcessPointer::compareSJF(Process* p1, Process* p2)
 {
 	if(p1 == NULL) { return false; }
 	if(p2 == NULL) { return true; }
+	
 	return p1->getTotalCpuTime() < p2->getTotalCpuTime(); //total cpu time is the sum of all cpu bursts at the creation of the process.
 }
 
