@@ -43,7 +43,7 @@ void SchedSim::printStatistics()
 		double totalWait = 0.0;
 		double totalComplete = 0.0;
 
-		printf("ProcessID\tLength\t\tArrival\t\tCompletion\tWait\t\tComplete\n");
+		printf("ProcessID\tLength\t\tArrival\t\tCompletion\tWait\t\tTotal Time\n");
 
 		for(it = _processTable.begin(); it != _processTable.end(); it++)
 		{
