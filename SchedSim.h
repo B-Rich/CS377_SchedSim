@@ -3,41 +3,29 @@
 class SchedSim
 {
 private:
+	int _nextProcessID;
 	int _maxProcesses;
 	int _remainingProcesses;
 	int _maxCPUBursts;
-	static Algorithm _algorithm;
 	int _quantum;
+	static Algorithm _algorithm;
+	static double _time;
+	CompareProcessPointer _compareProc; //Custom comparator for processes. Behavior varies based on algorithm.
+	FILE* _dataFile;
 	Device* _IODev;
 	Device* _CPUDev;
-	std::priority_queue<Event*, std::vector<Event*>, CompareEvent> _eventHeap;
-	std::priority_queue<Process*, std::vector<Process*>, CompareProcessPointer> _readyQueue;
-	std::queue<Process*> _IOQueue;
-	static double _time;	//made static
+	std::priority_queue<Event*, std::vector<Event*>, CompareEvent> _eventHeap; //holds events in sorted order of time.
+	std::priority_queue<Process*, std::vector<Process*>, CompareProcessPointer> _readyQueue; //processes waiting for CPU
+	std::queue<Process*> _IOQueue;	//processes waiting for I/O
 	std::map<int, ProcessData*> _processTable;
-	int _nextProcessID;
-	FILE* _dataFile;
-	CompareProcessPointer _compareProc;
 
-	void processArrivalEvent();
+	void processArrivalEvent(); //processes "process arrival" events
 
-	void processCpuDoneEvent();
+	void processCpuDoneEvent(); //processes "cpu done" events (cpu burst completion)
 
-	void processIoDoneEvent();
-
-	Event* createEventArrival(double time);
-
-	Event* createEventCPUDone(double time);
-
-	Event* createEventIODone(double time);
-
-	Event* createEvent(Type type, double time);
-
-	Process* getNextProcess();
+	void processIoDoneEvent();	//processes "I/O done" events (I/O burst completion)
 
 	void handleFileReadError();
-
-	bool processShouldPreemptProcessOnDevice(Process* process, Device* device);
 
 	void printStatistics();
 
@@ -50,6 +38,19 @@ private:
 	void placeProcessOnReadyQueue(Process* process);
 
 	void addProcessToEmptyIO(Process* process);
+	
+	bool processShouldPreemptProcessOnDevice(Process* process, Device* device);
+	
+	Event* createEventArrival(double time);
+
+	Event* createEventCPUDone(double time);
+
+	Event* createEventIODone(double time);
+
+	Event* createEvent(Type type, double time);
+
+	Process* getNextProcess();
+	
 public:
 	SchedSim(int maxProcesses, int maxCPUBursts, Algorithm algorithm, int quantum, FILE* dataFile);
 

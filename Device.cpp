@@ -10,6 +10,10 @@ Process* Device::getProcess()
 	return _process;
 }
 
+/*The event stored on the device.
+ *(Storing the event is necessary because the IO and CPU
+ *	devices hold IO and CPU 'done' events, respectively.)
+ */
 Event* Device::getEvent()
 {
 	return _event;

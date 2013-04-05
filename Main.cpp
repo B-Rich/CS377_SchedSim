@@ -42,17 +42,6 @@ int main(int argc, char** argv)
 		printf("maxCPUBursts = %d\n", maxCPUBursts);
 		printf("algorithm = %d\n", algorithm);
 		printf("quantum = %d\n", quantum);
-		/*
-		char buffer[100];
-		printf("dataFile:\n");
-		while(!feof(dataFile))
-		{
-			if(fgets(buffer, 100, dataFile)== NULL){ break; }
-			printf("%s", buffer);
-		}
-		printf("\n");
-		fseek(dataFile, 0, SEEK_SET);
-		*/
 	}
 
 	SchedSim schedSim(maxProcesses, maxCPUBursts, algorithm, 1, dataFile);

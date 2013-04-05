@@ -1,10 +1,14 @@
 #include "Headers.h"
 
 Process::Process(int processID)
-:	_processID(processID),_state(NEW),
-	_RQArrivalTime(0.0),_CPUArrivalTime(0.0),
-	_totalCPUtime(0.0),_remainingCPUtime(0.0),
-	_bursts()
+	//initializer list
+:	_bursts(),
+	_processID(processID),
+	_RQArrivalTime(0.0),
+	_CPUArrivalTime(0.0),
+	_totalCPUtime(0.0),
+	_remainingCPUtime(0.0),
+	_state(NEW)
 {
 }
 
@@ -50,7 +54,7 @@ double Process::getCurrentBurstTotal() //initial size of current burst
 	return _bursts.front()->first;
 }
 
-double Process::getCurrentBurstRemaining() //current size of current burst; is only =/= '.first' if the process has been preempted.
+double Process::getCurrentBurstRemaining() //current size of current burst; is only =/= '_bursts.first' if the process has been preempted.
 {
 	if(DEBUG_PROCESS)
 	{

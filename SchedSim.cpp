@@ -2,10 +2,20 @@
 
 //Constructor for SchedSim objects.
 SchedSim::SchedSim(int maxProcesses, int maxCPUBursts, Algorithm algorithm, int quantum, FILE* dataFile)
-: _maxProcesses(maxProcesses),_remainingProcesses(maxProcesses),_maxCPUBursts(maxCPUBursts),_quantum(quantum),
-	_IODev(new Device()),_CPUDev(new Device()),_eventHeap(),_readyQueue(algorithm),_IOQueue(),
-	_processTable(),_nextProcessID(0),_dataFile(dataFile),
-	_compareProc(algorithm) //removed _time(0.0), moved to bottom of this file.
+	//initializer list
+: 	_nextProcessID(0),
+	_maxProcesses(maxProcesses),
+	_remainingProcesses(maxProcesses),
+	_maxCPUBursts(maxCPUBursts),
+	_quantum(quantum),
+	_compareProc(algorithm),
+	_dataFile(dataFile),
+	_IODev(new Device()),
+	_CPUDev(new Device()),
+	_eventHeap(),
+	_readyQueue(algorithm),
+	_IOQueue(),
+	_processTable()
 {
 	_algorithm = algorithm;
 	createEventArrival(_time);
@@ -238,7 +248,7 @@ void SchedSim::addProcessToEmptyCPU(Process* process)
 		(
 			process,
 			createEventCPUDone
-				(f
+				(
 					_time +
 					process->getCurrentBurstRemaining()
 				)
@@ -293,7 +303,7 @@ void SchedSim::processArrivalEvent()
 	}
 
 	/*If CPU empty: get next process, set state to 'RUNNING', place on CPU device, create CPUEvent
-	*			else: attempt to preempt executing process; if not successful, just place process on ready queue
+	*	else: attempt to preempt executing process; if not successful, just place process on ready queue
 	*/
 	if(!_CPUDev->hasProcessAndEvent())
 	{
@@ -420,24 +430,25 @@ void SchedSim::addProcessToEmptyIO(Process* process)
 		);
 }
 
-Event* SchedSim::createEventArrival(double time)
-{
-	return createEvent(ARRIVAL, time);
-}
-
-Event* SchedSim::createEventCPUDone(double time)
-{
-	return createEvent(CPU_DONE, time);
-}
-
-Event* SchedSim::createEventIODone(double time)
-{
-	return createEvent(IO_DONE, time);
-}
-//Called by the three methods above to create the actual event. 
+//Called by the three methods below to create an actual event in the _eventHeap 
 Event* SchedSim::createEvent(Type type, double time)
 {
 	Event* event = new Event(type, time);
 	_eventHeap.push(event);
 	return event;
+}
+//calls createEvent
+Event* SchedSim::createEventArrival(double time)
+{
+	return createEvent(ARRIVAL, time);
+}
+//calls createEvent
+Event* SchedSim::createEventCPUDone(double time)
+{
+	return createEvent(CPU_DONE, time);
+}
+//calls createEvent
+Event* SchedSim::createEventIODone(double time)
+{
+	return createEvent(IO_DONE, time);
 }
