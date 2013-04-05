@@ -107,9 +107,9 @@ void SchedSim::DES()
 		delete currEvent;
 	}
 
-printf("_eventHeap.size() = %d\n", (int)_eventHeap.size());
-printf("_IOQueue->size() = %d\n", (int)_IOQueue.size());
-printf("_readyQueue->size() = %d\n", (int)_readyQueue.size());
+//printf("_eventHeap.size() = %d\n", (int)_eventHeap.size());
+//printf("_IOQueue->size() = %d\n", (int)_IOQueue.size());
+//printf("_readyQueue->size() = %d\n", (int)_readyQueue.size());
 	printStatistics();
 }
 
@@ -220,7 +220,7 @@ void SchedSim::handleFileReadError()
 	{
 		printf("Error reading file\n");
 	}
-	exit(1);
+	//exit(1);
 }
 
 //Adds the data from the process to the process table at the end of the process's lifetime. 
@@ -354,7 +354,7 @@ void SchedSim::processCpuDoneEvent()
 	}
 	else //the old process is terminated because it has no bursts remaining.
 	{
-printf("terminating process\n");
+//printf("terminating process\n");
 		oldProcess->setState(TERMINATED);
 		//update data in _processTable
 		_processTable[oldProcess->getProcessID()]->setCompletionTime(_time);

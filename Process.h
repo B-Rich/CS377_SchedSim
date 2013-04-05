@@ -65,12 +65,6 @@ public:
 	State getState();	
 };
 
-class CompareProcess
-{
-public:
-	bool operator()(Process* p1, Process* p2);
-};
-
 class QueueUnderflowException : public std::exception
 {
 	virtual const char* what() const throw();
